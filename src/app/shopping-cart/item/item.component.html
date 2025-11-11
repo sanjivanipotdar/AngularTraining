@@ -1,1 +1,13 @@
-<p>item works!</p>
+
+<div class="item-card">
+  <h3>{{ item.name }}</h3>
+  <p>{{ item.description }}</p>
+  <p><strong>{{ item.price | currency }}</strong></p>
+
+  <label>
+    Quantity:
+    <input type="number" [(ngModel)]="quantity" min="1" />
+  </label>
+
+  <button (click)="addToCart()">Add to Cart</button>
+</div>
