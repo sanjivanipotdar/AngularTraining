@@ -1,42 +1,54 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { SignInComponent } from './sign-in/sign-in.component';
-
-@Component({
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+ import { RouterModule } from '@angular/router';
+import { SignInComponent } from './membership/sign-in/sign-in.component';
+import { CommonModule } from '@angular/common';
+ 
+import { CatalogModule } from './catalog/catalog.module';
+import { SharedModule } from './shared/shared.module';
+import { CustomModule } from './custom/custom.module';
+import { GraphicsModule } from './graphics/graphics.module';
+import { ObservablesModule } from './observables/observables.module';
+import { BIModule } from './bi/bi.module';
+ @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, SignInComponent],
+  imports: [CommonModule,RouterModule,CatalogModule,
+             GraphicsModule,
+            SharedModule,CustomModule, 
+            BIModule,
+            ObservablesModule,
+            SignInComponent],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'] // ✅ use plural form
+  styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'estorespa';
-  loggedInStatus: boolean | undefined;
-  links: string[] = [];
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    this.links = ['home', 'about', 'services', 'protected'];
+  loggedInStatus:boolean|undefined;
+ 
+  links:any=[];
+
+  constructor(){
+    this.links=["home","about","services", "protected"];
   }
-
-  convertToBoolean(result: string): boolean {
-    return result === 'true';
+  convertToBoolean(result:string):boolean{
+    let status=false;
+    if(result=="true"){
+      status=true;
+    }
+    return status;
   }
 
   ngOnInit() {
-    console.log('Router container component ngOnInit is invoked');
-
-    // ✅ only run in browser
-    if (isPlatformBrowser(this.platformId)) {
-      const strStatus: string | null = localStorage.getItem('loggedInStatus');
-      console.log('in router container strStatus =', strStatus);
-
-      if (strStatus !== null) {
-        this.loggedInStatus = this.convertToBoolean(strStatus);
-        console.log('loggedInStatus:', this.loggedInStatus);
+    console.log("Router container component ngOnint is getting invoked");
+      let strStatus:string|null=localStorage.getItem("loggedInStatus");
+      console.log( " in routerocntainer strStatus ="+strStatus);
+      if(strStatus!=null){
+        this.loggedInStatus=true;
+        //this.convertToBoolean(strStatus);
+        console.log(this.loggedInStatus);
       }
-    } else {
-      console.log('Skipping localStorage — not running in browser');
-    }
+
   }
 }

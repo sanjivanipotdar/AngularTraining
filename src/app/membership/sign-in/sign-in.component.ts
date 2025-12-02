@@ -1,32 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-export class Credential  {
-  constructor(public  email:string,public  password:string){  }
-}
-
 @Component({
-  selector: 'app-sign-in',
+  selector: 'sign-in',
   standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './sign-in.component.html',
-  styleUrl: './sign-in.component.css'
+  styleUrls: ['./sign-in.component.css'],
+  imports: [CommonModule]
 })
-export class SignInComponent {
+export class SignInComponent implements OnInit {
+  ngOnInit() { }
 
-  isValidUser:boolean=false;
-  user: Credential=new Credential("ravi.tambade@transflower.in","seed");
- 
-  //Constructor 
-  constructor(private svc:AuthService) {    }  //DI
+  message: any;
+  constructor(public authService: AuthService) {
+    this.message = '';
+  }
 
- 
+  login(username: string, password: string): boolean {
+    this.message = '';
+    if (!this.authService.login(username, password)) {
+      this.message = 'Incorrect credentials.';
+      setTimeout(function() {
+        //this.message = '';
+      }.bind(this), 2500);
+    }
+    return false;
+  }
 
-  onSubmit(form: any): void {
-   this.isValidUser=this.svc.validate(form.userEmail,form.userPassword);
-   if(this.isValidUser){ console.log("Valid User !"); }
-   else{ console.log("Invalid User !"); }   
+  logout(): boolean {
+    this.authService.logout();
+    return false;
   }
 }
+
+
