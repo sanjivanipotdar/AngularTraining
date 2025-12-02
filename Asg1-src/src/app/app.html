@@ -1,0 +1,22 @@
+<h1>Angular app</h1>
+
+<hr/>
+
+{{title}}
+
+price :{{price |currency:'INR'}}
+
+<!-- input    html element-->
+ <!-- type  ,name     attribute-->
+<input type="password" name="id" value="678"/>
+
+<app-counter [count]=123></app-counter>
+
+<hr/>
+
+<!--<app-product-details></app-product-details>-->
+<!-- Nested Components-->
+ 
+<app-product-details [id]="12" [title]="Rose"
+ [description]="Valentine Flower" [price]="45"
+  [likes]="67000"   [imageurl]="/images/rose.jpg" ></app-product-details>
